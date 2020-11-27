@@ -1,6 +1,5 @@
 package window_builders;
 
-import button_actions.EnterButtonAction;
 import button_actions.NumberButtonAction;
 import button_actions.ResetButtonAction;
 import button_actions.SortButtonAction;
@@ -19,14 +18,18 @@ public class SortWindowBuilder {
             sortWindow =  builder.getWindow("Sort Screen");
             sortWindow.setLayout(new FlowLayout(FlowLayout.LEFT));
 
-            JPanel functionalJPanel = createFunctionalJPanel();
             JPanel sortScreenJPanel = createTableJPanel(source);
+            JPanel functionalJPanel = createFunctionalJPanel();
 
-            sortWindow.add(sortScreenJPanel);
+            JScrollPane pane = new JScrollPane(sortScreenJPanel, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+            pane.setPreferredSize(new Dimension(565, 430));
+
+            sortWindow.add(pane);
             sortWindow.add(functionalJPanel);
 
             sortScreenJPanel.revalidate();
             functionalJPanel.revalidate();
+            sortWindow.repaint();
             sortWindow.pack();
 
             return sortWindow;
@@ -46,20 +49,20 @@ public class SortWindowBuilder {
                 gridX = gridX + 1;
                 gridY = 0;
             }
-            GridBagConstraints gridBagConstraints = builder.getGridBagConstraints(1,1,gridX, gridY, 1,1);
-            gridBagConstraints.anchor = GridBagConstraints.CENTER;
-            gridBagConstraints.fill = GridBagConstraints.BOTH;
+            GridBagConstraints gridBagConstraints = builder.getGridBagConstraints(0,0,gridX, gridY, 1,1);
+            gridBagConstraints.anchor = GridBagConstraints.NORTHWEST;
+            gridBagConstraints.fill = GridBagConstraints.REMAINDER;
             gridBagConstraints.insets = new Insets(2, 2, 2, 2);
-            gridBagConstraints.ipadx = 0;
-            gridBagConstraints.ipady = 0;
+            gridBagConstraints.ipadx = 1;
+            gridBagConstraints.ipady = 1;
             JButton jButton = new JButton(String.valueOf(source.get(i)));
+            jButton.setPreferredSize(new Dimension(65, 35));
             AbstractAction numberButtonAction = new NumberButtonAction();
             jButton.addActionListener(numberButtonAction);
             tableJPanel.add(jButton, gridBagConstraints);
 
             gridY+=1;
         }
-
         return tableJPanel;
     }
 
